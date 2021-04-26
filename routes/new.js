@@ -52,17 +52,19 @@ router.post('/nova-tabela', (req, res) => {
 
             for (let i = 0; i < nrows; i++) {
                 for (j = 0; j < nkeys; j++) {
+                    const value = auxTable[i][keys[j]]
+                    const type = typeof(value)
                     if (j == 0) {
-                        data.cell.push([{ value: auxTable[i][keys[j]] }])
+                        data.cell.push([{ value, type }])
                     } else {
-                        data.cell[i].push({ value: auxTable[i][keys[j]] })
+                        data.cell[i].push({ value, type })
                     }
                 }
             }
 
             data = JSON.stringify(data)
 
-            fs.writeFile('./uploads/data.json', data, err => {
+            fs.writeFile(`${rootPath}/uploads/data.json`, data, err => {
                 if (err) {
                     return console.log('Ocorreu um erro ao salvar o arquivo de cabeçalho.')
                 }

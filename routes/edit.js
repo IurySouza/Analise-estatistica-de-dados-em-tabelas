@@ -10,6 +10,7 @@ const xlsx = require('xlsx')
 
 router.get('/', (req, res) => {
     const rootPath = `${path.dirname(__dirname)}\\uploads\\data.json` 
+    // const rootPath = './../uploads/data.json'
 
     fs.readFile(rootPath, 'utf-8', async (err, data) => {
         if (err) {
