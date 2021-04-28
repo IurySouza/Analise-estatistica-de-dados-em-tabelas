@@ -10,7 +10,6 @@ const xlsx = require('xlsx')
 
 router.get('/', (req, res) => {
     const rootPath = `${path.dirname(__dirname)}\\uploads\\data.json` 
-    // const rootPath = './../uploads/data.json'
 
     fs.readFile(rootPath, 'utf-8', async (err, data) => {
         if (err) {
@@ -44,14 +43,14 @@ router.post('/atualizar', (req, res) => {
             if (nrow > 1) {
                 d.cell[nrow - 2][ncol].value = value
             } else {
-                d.keys[ncol] = value
+                d.keys[ncol].value = value
             }
         }
 
         let i = 0
         for (i; i < d.nkeys; i++) {
-            if (d.keys[i] == req.body.coluna) {
-                console.log(d.keys[i])
+            if (d.keys[i].value == req.body.coluna) {
+                //console.log(d.keys[i])
                 break
             }
         }

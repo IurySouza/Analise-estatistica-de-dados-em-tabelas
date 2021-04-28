@@ -48,18 +48,48 @@ router.post('/nova-tabela', (req, res) => {
             JSON.stringify(auxTable)
 
             let keys = Object.keys(auxTable[0]), nkeys = keys.length, nrows = auxTable.length
-            let data = { filename: req.body.filename, workspace: req.body.workspace, keys, nkeys, nrows, cell: [] }
+            let data = { filename: req.body.filename, workspace: req.body.workspace, keys: [], nkeys, nrows, cell: [] }
+
+            const aux = {
+                sum: [],
+                ntotal: [],
+                nums: []
+            }
+
+            for (let i = 0; i < nkeys; i++) {
+                data.keys.push({ value: keys[i] })
+                aux.sum.push(0)
+                aux.ntotal.push(0)
+                aux.nums.push(0)
+            }
 
             for (let i = 0; i < nrows; i++) {
                 for (j = 0; j < nkeys; j++) {
                     const value = auxTable[i][keys[j]]
-                    const type = typeof(value)
+                    const type = typeof (value)
+
                     if (j == 0) {
                         data.cell.push([{ value, type }])
                     } else {
                         data.cell[i].push({ value, type })
                     }
+                    if (type == 'number' || value == '') {
+                        aux.nums[j]++
+                        aux.sum[j] += value * 1
+                    }
+                    aux.ntotal[j]++
                 }
+            }
+
+            for (let i = 0; i < nkeys; i++) {
+                if (!(aux.ntotal[i] - aux.nums[i])) {
+                    data.keys[i].allNums = true
+                } else {
+                    data.keys[i].allNums = false
+                }
+                data.keys[i].nelems = aux.ntotal[i]
+                data.keys[i].sum = aux.sum[i]
+                data.keys[i].media = 0
             }
 
             data = JSON.stringify(data)

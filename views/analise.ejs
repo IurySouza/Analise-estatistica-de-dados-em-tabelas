@@ -3,9 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análise</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-    BLABLABLALBABLABLBLAB
+    <%= JSON.stringify(data.labels) %>
+    <%= JSON.stringify(data.values) %>
+    <div class="wrapper">
+        <canvas id="grafMedia"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
+
+<script>
+    const l = []
+    const v = []
+    console.log(l, v)
+
+    '<% for(let i in data.labels) { %>'
+        l.push('<%- data.labels[i] %>')
+    '<% } %>'
+
+    '<% for(let i in data.values) { %>'
+        v.push('<%- data.values[i] %>')
+    '<% } %>'
+
+    console.log(l, v)
+
+    const ctx = document.getElementById('grafMedia')
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: l,
+            datasets: [{
+                label: "Média",
+                backgroundColor: "rgba(255,99,132,0.2)",
+                borderColor: "rgba(255,99,132,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                hoverBorderColor: "rgba(255,99,132,1)",
+                data: v
+            }] 
+        },
+        options: {
+        }
+    })
+</script>
 </html>

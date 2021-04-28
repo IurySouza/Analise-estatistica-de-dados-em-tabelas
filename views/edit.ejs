@@ -93,9 +93,9 @@
                         1
                     </th>
                     <% for (let i in data.keys) { %>
-                        <% if (data.keys[i] !='__EMPTY' ) { %>
+                        <% if (data.keys[i].value !='__EMPTY' ) { %>
                             <th scope="col" class="pe-4">
-                                <%= data.keys[i] %>
+                                <%= data.keys[i].value %>
                             </th>
                             <% } else { %>
                                 <th scope="col" class="pe-4">
